@@ -1,19 +1,17 @@
 import requests
-from django.db import models
 from django.conf import settings
-from django.shortcuts import redirect
+from django.contrib.auth.models import Permission
 
 def ensure_compliant(sender, request, user, **kwargs):
-    payload = { 'uniqname': user.username }
+    payload = {'uniqname': user.username}
     response = requests.get(settings.ACCESS_AND_COMPLIANCE_VALIDATION_URL, params=payload)
     response.raise_for_status()
 
     if _is_compliant(response):
-        return True
-    elif settings.ACCESS_AND_COMPLIANCE_FORM_URL:
-        redirect(settings.ACCESS_AND_COMPLIANCE_FORM_URL)
+        permission = Permission.objects.get(codename='confirmed_access_and_compliance')
+        user.user_permissions.add(permission)
     else:
-        return False
+        print(f'{user} has not attested to data compliance policy!')
 
 def _is_compliant(response):
     return response.text in settings.ACCESS_AND_COMPLIANCE_TRUTHY_VALUES
