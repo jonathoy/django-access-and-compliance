@@ -15,9 +15,7 @@ policy.
     ]
 ```
 
-2. Run `python manage.py migrate` to create the access and compliance models.
-
-3. Configure the following settings in your application:
+2. Configure the following settings in your application:
 
 ```python
 # the URL for the desired access and compliance webservice
@@ -31,29 +29,8 @@ ACCESS_AND_COMPLIANCE_TRUTHY_VALUES
 
 This application hooks into an existing Django application and listens for the login signal. Once a user logs in, it makes a request to the `ACCESS_AND_COMPLIANCE_VALIDATION_URL` and checks if the response body matches one of the truthy values specified in `ACCESS_AND_COMPLIANCE_TRUTHY_VALUES`.
 
-If the user has attested to the data access and compliance policy, an auth permission will be added for the user.
+After all migrations are performed, the app also ensures that a group called 'Access and Compliance Members' exists.
 
-It will resemble the following structure:
+If the user has attested to the data access and compliance policy, they will be added to the 'Access and Compliance Members' group.
 
-```python
-from django.contrib.auth.models import Permission
-
-from .models import AccessAndCompliance
-
-content_type = ContentType.objects.get_for_model(AccessAndCompliance)
-Permission.objects.get(
-    codename='confirmed_access_and_compliance',
-    content_type=content_type,
-    # name='Attested to access and compliance policy'
-)
-```
-
-From your Django application, you can then validate for the permission by utilizing the [built-in permissions methods](https://docs.djangoproject.com/en/2.2/topics/auth/default/#permissions-and-authorization).
-
-e.g. with a decorator:
-
-```python
-@permission_required('django_access_and_compliance.confirmed_access_and_compliance', raise_exception=True)
-def protected_view(request):
-    # view stuff
-```
+It is up to the application admin to configure any applicable permissions on this group.
