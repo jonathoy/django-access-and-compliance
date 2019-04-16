@@ -29,8 +29,6 @@ ACCESS_AND_COMPLIANCE_TRUTHY_VALUES
 
 This application hooks into an existing Django application and listens for the login signal. Once a user logs in, it makes a request to the `ACCESS_AND_COMPLIANCE_VALIDATION_URL` and checks if the response body matches one of the truthy values specified in `ACCESS_AND_COMPLIANCE_TRUTHY_VALUES`.
 
-After all migrations are performed, the app also ensures that a group called 'Access and Compliance Members' exists.
-
 If the user has attested to the data access and compliance policy, they will be added to the 'Access and Compliance Members' group.
 
 It is up to the application admin to configure any applicable permissions on this group.
