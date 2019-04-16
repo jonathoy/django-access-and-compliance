@@ -1,6 +1,7 @@
 from django.apps import AppConfig
 from django.contrib.auth.signals import user_logged_in
 
+
 class AccessAndComplianceConfig(AppConfig):
     name = 'django_access_and_compliance'
     verbose = 'Access and Compliance'
