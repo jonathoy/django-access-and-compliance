@@ -6,12 +6,14 @@ policy.
 
 ## Quick start
 
-1. Add "django_access_and_compliance" to your INSTALLED_APPS setting like this::
+1. Add 'django_access_and_compliance' to your `INSTALLED_APPS` setting like this:
 
-   INSTALLED_APPS = [
-   'django_access_and_compliance',
-   ...
-   ]
+```python
+    INSTALLED_APPS = [
+        'django_access_and_compliance',
+        ...
+    ]
+```
 
 2. Run `python manage.py migrate` to create the access and compliance models.
 
@@ -42,13 +44,13 @@ content_type = ContentType.objects.get_for_model(AccessAndCompliance)
 Permission.objects.get(
     codename='confirmed_access_and_compliance',
     content_type=content_type,
-    name='Attested to access and compliance policy'
+    # name='Attested to access and compliance policy'
 )
 ```
 
 From your Django application, you can then validate for the permission by utilizing the [built-in permissions methods](https://docs.djangoproject.com/en/2.2/topics/auth/default/#permissions-and-authorization).
 
-e.g. with a decorator
+e.g. with a decorator:
 
 ```python
 @permission_required('django_access_and_compliance.confirmed_access_and_compliance', raise_exception=True)
