@@ -16,10 +16,9 @@ setup(
         Michigan\'s Data Access and Compliance Policy',
     long_description=README,
     long_description_content_type='text/markdown',
-    # url='https://www.example.com/',
     author='Jonathon Yu',
     install_requires=[
-        'requests>=2.21.0<3',
+        'requests>=2,<3',
     ],
     classifiers=[
         'Environment :: Web Environment',
