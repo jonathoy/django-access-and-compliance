@@ -13,7 +13,7 @@ def ensure_compliant(sender, request, user, **kwargs):
     payload = {'uniqname': user.username}
     response = requests.get(settings.ACCESS_AND_COMPLIANCE_VALIDATION_URL, params=payload)
     response.raise_for_status()
-    group = Group.objects.get_or_create(name=access_and_compliance_group_name)
+    group, created = Group.objects.get_or_create(name=access_and_compliance_group_name)
 
     if _is_compliant(response):
         group.user_set.add(user)
